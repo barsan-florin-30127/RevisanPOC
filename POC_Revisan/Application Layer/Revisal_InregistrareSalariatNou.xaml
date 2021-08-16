@@ -5,7 +5,7 @@
   <mva:VisualBasic.Settings>
     <x:Null />
   </mva:VisualBasic.Settings>
-  <sap:VirtualizedContainerService.HintSize>769.6,944</sap:VirtualizedContainerService.HintSize>
+  <sap:VirtualizedContainerService.HintSize>1244.8,946.4</sap:VirtualizedContainerService.HintSize>
   <sap2010:WorkflowViewState.IdRef>Revisal_EnterDateSalariat_1</sap2010:WorkflowViewState.IdRef>
   <TextExpression.NamespacesForImplementation>
     <sco:Collection x:TypeArguments="x:String">
@@ -67,15 +67,12 @@
       <AssemblyReference>UiPath.UIAutomationCore</AssemblyReference>
       <AssemblyReference>System.Memory</AssemblyReference>
       <AssemblyReference>System.Runtime.Serialization</AssemblyReference>
+      <AssemblyReference>System.Runtime.WindowsRuntime</AssemblyReference>
     </sco:Collection>
   </TextExpression.ReferencesForImplementation>
-  <Sequence sap2010:Annotation.AnnotationText="Workflow that begins the process of registering data" DisplayName="Revisal_EnterDateSalariat" sap:VirtualizedContainerService.HintSize="524.8,844" sap2010:WorkflowViewState.IdRef="Sequence_1">
+  <Sequence sap2010:Annotation.AnnotationText="Workflow that begins the process of registering data" DisplayName="Revisal_EnterDateSalariat" sap:VirtualizedContainerService.HintSize="689.6,844" sap2010:WorkflowViewState.IdRef="Sequence_1">
     <Sequence.Variables>
-      <Variable x:TypeArguments="scg:List(x:String)" Name="list_strContractNumbers">
-        <Variable.Default>
-          <mva:VisualBasicValue x:TypeArguments="scg:List(x:String)" ExpressionText="new List(of String)" />
-        </Variable.Default>
-      </Variable>
+      <Variable x:TypeArguments="scg:List(x:String)" Default="[new List(of String)]" Name="list_strContractNumbers" />
     </Sequence.Variables>
     <sap:WorkflowViewStateService.ViewState>
       <scg:Dictionary x:TypeArguments="x:String, x:Object">
@@ -83,21 +80,8 @@
         <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
-    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="483.2,92.8" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Info" Message="[&quot;Starting inregistrare salariat...&quot;]" />
-    <If Condition="[list_strContractNumbers.Contains(in_NumarContract)]" sap:VirtualizedContainerService.HintSize="483.2,292.8" sap2010:WorkflowViewState.IdRef="If_1">
-      <If.Then>
-        <Throw Exception="[new BusinessRuleException(&quot;O persoana a fost deja inregistrata cu numarul de contract &quot; + in_NumarContract)]" sap:VirtualizedContainerService.HintSize="200,22.4" sap2010:WorkflowViewState.IdRef="Throw_1" />
-      </If.Then>
-      <If.Else>
-        <InvokeMethod DisplayName="Invoke Method" sap:VirtualizedContainerService.HintSize="236.8,133.6" sap2010:WorkflowViewState.IdRef="InvokeMethod_1" MethodName="Add">
-          <InvokeMethod.TargetObject>
-            <InArgument x:TypeArguments="scg:List(x:String)">[list_strContractNumbers]</InArgument>
-          </InvokeMethod.TargetObject>
-          <InArgument x:TypeArguments="x:String">[in_NumarContract]</InArgument>
-        </InvokeMethod>
-      </If.Else>
-    </If>
-    <ui:WindowScope ApplicationWindow="{x:Null}" SearchScope="{x:Null}" TimeoutMS="{x:Null}" Window="{x:Null}" DisplayName="Attach Window Revisal" sap:VirtualizedContainerService.HintSize="483.2,254.4" sap2010:WorkflowViewState.IdRef="WindowScope_1" InformativeScreenshot="c519a0effefe224c44ca7ee31942e834" Selector="&lt;wnd app='teamnet.revisal.ui.exe' cls='HwndWrapper*' title='ReviSal - versiunea 6.0.6.0' aaname='ReviSal - versiunea 6.0.6.0' /&gt;">
+    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="648,92.8" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Info" Message="[&quot;Starting inregistrare salariat...&quot;]" />
+    <ui:WindowScope ApplicationWindow="{x:Null}" SearchScope="{x:Null}" TimeoutMS="{x:Null}" Window="{x:Null}" DisplayName="Attach Window Revisal" sap:VirtualizedContainerService.HintSize="648,254.4" sap2010:WorkflowViewState.IdRef="WindowScope_1" InformativeScreenshot="c519a0effefe224c44ca7ee31942e834" Selector="&lt;wnd app='teamnet.revisal.ui.exe' cls='HwndWrapper*' title='ReviSal - versiunea 6.0.6.0' aaname='ReviSal - versiunea 6.0.6.0' /&gt;">
       <ui:WindowScope.Body>
         <ActivityAction x:TypeArguments="x:Object">
           <ActivityAction.Argument>
@@ -128,5 +112,24 @@
         </ActivityAction>
       </ui:WindowScope.Body>
     </ui:WindowScope>
+    <If Condition="[list_strContractNumbers.Contains(in_NumarContract)]" sap:VirtualizedContainerService.HintSize="648,292.8" sap2010:WorkflowViewState.IdRef="If_1">
+      <If.Then>
+        <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoke Revisal_FailedRegistration workflow" sap:VirtualizedContainerService.HintSize="367.2,113.6" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_1" LogEntry="No" LogExit="No" UnSafe="False" WorkflowFileName="Application Layer\Revisal_FailedRegistration.xaml">
+          <ui:InvokeWorkflowFile.Arguments>
+            <InArgument x:TypeArguments="x:String" x:Key="in_ErrorMessage">
+              <Literal x:TypeArguments="x:String">Invalid contract number</Literal>
+            </InArgument>
+          </ui:InvokeWorkflowFile.Arguments>
+        </ui:InvokeWorkflowFile>
+      </If.Then>
+      <If.Else>
+        <InvokeMethod DisplayName="Invoke Method" sap:VirtualizedContainerService.HintSize="236.8,133.6" sap2010:WorkflowViewState.IdRef="InvokeMethod_1" MethodName="Add">
+          <InvokeMethod.TargetObject>
+            <InArgument x:TypeArguments="scg:List(x:String)">[list_strContractNumbers]</InArgument>
+          </InvokeMethod.TargetObject>
+          <InArgument x:TypeArguments="x:String">[in_NumarContract]</InArgument>
+        </InvokeMethod>
+      </If.Else>
+    </If>
   </Sequence>
 </Activity>
